@@ -1,4 +1,5 @@
-import { Button } from "./Button/Button";
-import { Header } from "./Header/Header";
+import { Button } from "./Button";
+import { GameMenuButton } from "./GameMenuButton";
+import { Header } from "./Header";
 
-export { Button, Header };
+export { Button, GameMenuButton, Header };
