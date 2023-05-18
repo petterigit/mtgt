@@ -4,7 +4,7 @@ import { GameMenu, GameMenuButton, Player } from "ui";
 
 export const Game = () => {
 	const router = useRouter();
-	const { id } = router.query;
+	const { gameId } = router.query;
 
 	const [players, setPlayers] = useState([]);
 	const [openModal, setOpenModal] = useState(false);
@@ -21,7 +21,7 @@ export const Game = () => {
 
 	return (
 		<div>
-			Game view for id: {id}
+			Game view for id: {gameId}
 			<GameMenuButton onClick={() => setOpenModal(true)} />
 			{players.map((player) => (
 				<Player name={player} life={40} />
