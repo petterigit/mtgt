@@ -13,5 +13,5 @@ export default meta;
 type Story = StoryObj<typeof LobbyContainer>;
 
 export const LobbyContainerStory: Story = {
-	args: { open: true, addPlayer: () => {} },
+	args: { onSubmit: (value) => alert(value) },
 };
