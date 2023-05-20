@@ -1,8 +1,8 @@
-import { PropsWithChildren } from "react";
+import { ButtonHTMLAttributes, PropsWithChildren } from "react";
 import "./button.css";
 import { ReactNode } from "react";
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	/**
 	 * Is this the principal call to action on the page?
 	 */

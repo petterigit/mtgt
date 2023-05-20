@@ -1,6 +1,7 @@
 import React from "react";
 import { FormEvent, useState } from "react";
 import "./lobbycontainer.css";
+import { Button } from "../Button";
 
 interface Props {
 	onSubmit: (value: string) => void;
@@ -26,7 +27,7 @@ export const LobbyContainer = (props: Props) => {
 				id="game-picker"
 				onChange={(e) => setValue(e.target.value)}
 			></input>
-			<button type="submit">Go</button>
+			<Button type="submit">Go</Button>
 		</form>
 	);
 };
