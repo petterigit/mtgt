@@ -23,8 +23,8 @@ export const Game = () => {
 		<div>
 			Game view for id: {gameId}
 			<GameMenuButton onClick={() => setOpenModal(true)} />
-			{players.map((player) => (
-				<Player name={player} life={40} />
+			{players.map((player, i) => (
+				<Player key={`player-${i}`} name={player} life={40} />
 			))}
 			<GameMenu open={openModal} addPlayer={addPlayer} />
 		</div>

@@ -13,5 +13,5 @@ export default meta;
 type Story = StoryObj<typeof Player>;
 
 export const PlayerStory: Story = {
-	args: { name: "Maija", life: 1 },
+	args: { name: "Vilperi", life: 1 },
 };
