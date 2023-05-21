@@ -1,0 +1,23 @@
+name: Build & LINT project
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v3
+    - uses: pnpm/action-setup@v2
+    - name: Setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+        cache: 'pnpm'
+    - name: Install dependencies
+      run: pnpm install
+    - name: lint project
+      run: pnpm lint
+    - name: Run build
+      run: pnpm build
