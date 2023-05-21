@@ -1,33 +1,28 @@
-import React from "react";
-import { FormEvent, useState } from "react";
-import "./lobbycontainer.css";
-import { Button } from "../Button";
+import React from 'react';
+import { FormEvent, useState } from 'react';
+import './lobbycontainer.css';
+import { Button } from '../Button';
 
 interface Props {
-	onSubmit: (value: string) => void;
+    onSubmit: (value: string) => void;
 }
 
 export const LobbyContainer = (props: Props) => {
-	const { onSubmit } = props;
+    const { onSubmit } = props;
 
-	const [value, setValue] = useState("");
+    const [value, setValue] = useState('');
 
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
-		onSubmit(value);
-	};
+        onSubmit(value);
+    };
 
-	return (
-		<form onSubmit={handleSubmit} className="lobby-container">
-			<label htmlFor="game-picker">Select room</label>
-			<input
-				value={value}
-				name="game-picker"
-				id="game-picker"
-				onChange={(e) => setValue(e.target.value)}
-			></input>
-			<Button type="submit">Go</Button>
-		</form>
-	);
+    return (
+        <form onSubmit={handleSubmit} className="lobby-container">
+            <label htmlFor="game-picker">Select room</label>
+            <input value={value} name="game-picker" id="game-picker" onChange={e => setValue(e.target.value)}></input>
+            <Button type="submit">Go</Button>
+        </form>
+    );
 };
