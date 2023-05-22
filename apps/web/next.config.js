@@ -6,5 +6,6 @@ module.exports = {
     output: 'export',
 
     // In production, app is served under /mtgt path
+    basePath: isProd ? '/mtgt' : undefined,
     assetPrefix: isProd ? '/mtgt' : undefined,
 };
