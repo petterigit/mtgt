@@ -14,6 +14,10 @@ export const Game = () => {
         setPlayers(newPlayers);
     };
 
+    const leaveGame = () => {
+        router.push('/');
+    };
+
     const onClose = () => {
         setOpenModal(false);
     };
@@ -28,7 +32,7 @@ export const Game = () => {
             <div style={{ alignSelf: 'center' }}>
                 <GameMenuButton onClick={() => setOpenModal(true)} />
             </div>
-            <GameMenu open={openModal} addPlayer={addPlayer} onClose={onClose} />
+            <GameMenu open={openModal} addPlayer={addPlayer} leaveGame={leaveGame} onClose={onClose} />
         </GameContainer>
     );
 };
