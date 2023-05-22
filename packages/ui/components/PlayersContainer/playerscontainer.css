@@ -1,0 +1,9 @@
+.players-container {
+    min-width: 50vw;
+    max-width: 75vw;
+    min-height: 50vh;
+    max-height: 75vh;
+    display: flex;
+    gap: 2em;
+    flex-wrap: wrap;
+}

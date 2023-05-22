@@ -1,15 +1,22 @@
+import { Button } from '../Button';
+import './gamemenu.css';
+
 interface Props {
     open: boolean;
-    addPlayer: (arg0: boolean) => void;
+    addPlayer: () => void;
+    onClose: () => void;
 }
 
 export const GameMenu = (props: Props) => {
-    const { open, addPlayer } = props;
+    const { open, addPlayer, onClose } = props;
     return (
-        <dialog open={open}>
-            <p>Add a player?</p>
-            <button onClick={() => addPlayer(true)}>Yes</button>
-            <button onClick={() => addPlayer(false)}>No</button>
+        <dialog className="game-menu-dialog" open={open}>
+            <div className="game-menu-contents">
+                <h2>Options</h2>
+
+                <Button onClick={addPlayer}>Add a player</Button>
+                <Button onClick={onClose}>Close game menu</Button>
+            </div>
         </dialog>
     );
 };

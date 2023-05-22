@@ -4,25 +4,33 @@ import './lobbycontainer.css';
 import { Button } from '../Button';
 
 interface Props {
-    onSubmit: (value: string) => void;
+    joinGame: (gameID: string) => void;
+    createGame: () => void;
 }
 
 export const LobbyContainer = (props: Props) => {
-    const { onSubmit } = props;
+    const { createGame, joinGame } = props;
 
     const [value, setValue] = useState('');
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        onSubmit(value);
+        joinGame(value);
     };
 
     return (
-        <form onSubmit={handleSubmit} className="lobby-container">
-            <label htmlFor="game-picker">Select room</label>
-            <input value={value} name="game-picker" id="game-picker" onChange={e => setValue(e.target.value)}></input>
-            <Button type="submit">Go</Button>
-        </form>
+        <div className="lobby-container">
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="game-picker">Select room</label>
+                <input
+                    value={value}
+                    name="game-picker"
+                    id="game-picker"
+                    onChange={e => setValue(e.target.value)}
+                ></input>
+                <Button type="submit">Go</Button>
+            </form>
+            <Button onClick={createGame}>Create game</Button>
+        </div>
     );
 };

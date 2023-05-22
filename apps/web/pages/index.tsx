@@ -1,7 +1,5 @@
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
-import { Button, LobbyContainer } from 'ui';
+import { Button, LobbyContainer, PageContainer } from 'ui';
 
 const Web = () => {
     const router = useRouter();
@@ -17,12 +15,7 @@ const Web = () => {
         router.push(`/game/${gameID}`);
     };
 
-    return (
-        <div>
-            <h1>Web</h1>
-            <LobbyContainer onSubmit={value => joinGame(value)}></LobbyContainer>
-        </div>
-    );
+    return <LobbyContainer createGame={newGame} joinGame={value => joinGame(value)}></LobbyContainer>;
 };
 
 export default Web;
