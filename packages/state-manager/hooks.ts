@@ -1,11 +1,35 @@
-import { useContext } from 'react';
-import { GameStateContext } from './GameStateContext';
+import { create } from 'zustand';
+import { GameState, GameStateActions } from './types';
 
-export const useGameStateStore = () => {
-    const context = useContext(GameStateContext);
-    if (!context) {
-        throw new Error('Use game state must be used within GameStateProvider');
-    }
+const initialState: GameState = {
+    gameID: '',
+    players: 0,
+};
 
-    return context;
+const useGameStateStore = create<GameState & GameStateActions>(set => ({
+    gameID: '',
+    players: 0,
+    setGameID: id => set(state => ({ gameID: id })),
+    addPlayer: by => set(state => ({ players: state.players + by })),
+    reset: (gameID: string) =>
+        set({
+            ...initialState,
+            gameID: gameID,
+        }),
+}));
+
+export const useGameState = () => {
+    return useGameStateStore(state => state);
+};
+
+export const useSetGameID = () => {
+    return useGameStateStore(state => state.setGameID);
+};
+
+export const usePlayers = () => {
+    return useGameStateStore(state => state.players);
+};
+
+export const useAddPlayer = () => {
+    return useGameStateStore(state => state.addPlayer);
 };

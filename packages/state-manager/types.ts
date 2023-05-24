@@ -1,4 +1,10 @@
 export interface GameState {
-    bears: number;
-    increase: (by: number) => void;
+    gameID: string;
+    players: number;
+}
+
+export interface GameStateActions {
+    addPlayer: (by: number) => void;
+    setGameID: (id: string) => void;
+    reset: (gameID: string) => void;
 }
