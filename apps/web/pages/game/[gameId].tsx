@@ -1,8 +1,18 @@
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
+import { GameStateProvider, useGameStateStore } from 'state-manager';
 import { GameContainer, GameMenu, GameMenuButton, Player, PlayersContainer } from 'ui';
 
-export const Game = () => {
+const GameWithProviders = (props: PropsWithChildren) => {
+    const { children } = props;
+    return (
+        <GameStateProvider>
+            <Game />
+        </GameStateProvider>
+    );
+};
+
+const Game = () => {
     const router = useRouter();
     const { gameId } = router.query;
 
@@ -22,6 +32,10 @@ export const Game = () => {
         setOpenModal(false);
     };
 
+    const store = useGameStateStore();
+
+    console.log(store.getState());
+
     return (
         <GameContainer>
             <PlayersContainer>
@@ -32,9 +46,10 @@ export const Game = () => {
             <div style={{ alignSelf: 'center' }}>
                 <GameMenuButton onClick={() => setOpenModal(true)} />
             </div>
+
             <GameMenu open={openModal} addPlayer={addPlayer} leaveGame={leaveGame} onClose={onClose} />
         </GameContainer>
     );
 };
 
-export default Game;
+export default GameWithProviders;
