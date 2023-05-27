@@ -1,13 +1,13 @@
 import { GameState, Player } from 'types';
-import { generateId } from 'utils';
+import { createUniqueName, generateId } from 'utils';
 
 export const initialState: GameState = {
     id: '',
     players: [],
 };
 
-export const initialPlayer: () => Player = () => ({
-    name: 'New Player',
+export const initialPlayer = () => ({
+    name: createUniqueName(),
     life: 40,
     poison: 0,
     id: generateId(),
