@@ -1,20 +1,28 @@
 import { create } from 'zustand';
-import { GameState, GameStateActions } from './types';
-
-const initialState: GameState = {
-    gameID: '',
-    players: 0,
-};
+import { GameStateActions } from './types';
+import { GameState, Player, PlayerAttributes } from 'types';
+import { initialPlayer, initialState } from './inits';
 
 const useGameStateStore = create<GameState & GameStateActions>(set => ({
-    gameID: '',
-    players: 0,
-    setGameID: id => set(state => ({ gameID: id })),
-    addPlayer: by => set(state => ({ players: state.players + by })),
-    reset: (gameID: string) =>
+    ...initialState,
+    setPlayerAttribute: (id: string, value: number, attribute: PlayerAttributes) =>
+        set(state => {
+            const newPlayers = [...state.players];
+
+            for (const player of newPlayers) {
+                if (player.id !== id) continue;
+                player[attribute] = value;
+                break;
+            }
+
+            return { players: newPlayers };
+        }),
+    setGameID: id => set(state => ({ id: id })),
+    addPlayer: () => set(state => ({ players: [...state.players, initialPlayer()] })),
+    reset: (gameId: string) =>
         set({
             ...initialState,
-            gameID: gameID,
+            id: gameId,
         }),
 }));
 
@@ -32,4 +40,8 @@ export const usePlayers = () => {
 
 export const useAddPlayer = () => {
     return useGameStateStore(state => state.addPlayer);
+};
+
+export const useSetPlayerAttribute = () => {
+    return useGameStateStore(state => state.setPlayerAttribute);
 };

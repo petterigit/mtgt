@@ -1,0 +1,16 @@
+{
+    "name": "utils",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.ts",
+    "types": "index.ts",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "uuid": "^9.0.0"
+    },
+    "devDependencies": {
+        "@types/uuid": "^9.0.1"
+    }
+}
