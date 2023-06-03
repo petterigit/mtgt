@@ -12,7 +12,6 @@ const Game = () => {
 
     const addPlayer = useAddPlayer();
     const setPlayerAttribute = useSetPlayerAttribute();
-    const state = useGameState();
     const players = usePlayers();
     const setGameID = useSetGameID();
 
@@ -32,11 +31,11 @@ const Game = () => {
         setOpenModal(false);
     };
 
-    const handleAddAttribute = (playerId: string, attribute: PlayerAttributes, newValue: number) => {
+    const handleAddAttribute = (playerId: string, attribute: PlayerAttributes, newValue: number | boolean) => {
         setPlayerAttribute(playerId, newValue, attribute);
     };
 
-    const handleRemoveAttribute = (playerId: string, attribute: PlayerAttributes, newValue: number) => {
+    const handleRemoveAttribute = (playerId: string, attribute: PlayerAttributes, newValue: number | boolean) => {
         setPlayerAttribute(playerId, newValue, attribute);
     };
 
@@ -51,10 +50,7 @@ const Game = () => {
                         key={`player-${i}`}
                         addAttribute={handleAddAttribute}
                         removeAttribute={handleRemoveAttribute}
-                        id={player.id}
-                        name={player.name}
-                        life={player.life}
-                        poison={player.poison}
+                        {...player}
                     />
                 ))}
             </PlayersContainer>
