@@ -42,8 +42,9 @@ const Game = () => {
 
     return (
         <GameContainer>
-            <h1>Game {state.id}</h1>
-            <h2>Players: {players.length}</h2>
+            <div style={{ alignSelf: 'center', padding: '8em' }}>
+                <GameMenuButton onClick={() => setOpenModal(true)} />
+            </div>
             <PlayersContainer>
                 {players.map((player, i) => (
                     <Player
@@ -57,9 +58,6 @@ const Game = () => {
                     />
                 ))}
             </PlayersContainer>
-            <div style={{ alignSelf: 'center' }}>
-                <GameMenuButton onClick={() => setOpenModal(true)} />
-            </div>
 
             <GameMenu open={openModal} addPlayer={addPlayer} leaveGame={leaveGame} onClose={onClose} />
         </GameContainer>
