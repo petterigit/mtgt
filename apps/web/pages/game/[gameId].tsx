@@ -1,8 +1,9 @@
+import { NextServer } from 'next/dist/server/next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAddPlayer, useGameState } from 'state-manager';
 import { usePlayers, useSetGameID, useSetPlayerAttribute } from 'state-manager/hooks';
-import { PlayerAttributes } from 'types';
+import { Player as PlayerType, PlayerAttribute } from 'types';
 import { GameContainer, GameMenu, GameMenuButton, Player, PlayersContainer } from 'ui';
 
 const Game = () => {
@@ -11,8 +12,7 @@ const Game = () => {
     const [openModal, setOpenModal] = useState(false);
 
     const addPlayer = useAddPlayer();
-    const setPlayerAttribute = useSetPlayerAttribute();
-    const state = useGameState();
+    const { set } = useSetPlayerAttribute();
     const players = usePlayers();
     const setGameID = useSetGameID();
 
@@ -22,7 +22,7 @@ const Game = () => {
             return;
         }
         setGameID(gameId);
-    }, [gameId]);
+    }, [gameId, setGameID]);
 
     const leaveGame = () => {
         router.push('/');
@@ -32,12 +32,12 @@ const Game = () => {
         setOpenModal(false);
     };
 
-    const handleAddAttribute = (playerId: string, attribute: PlayerAttributes, newValue: number) => {
-        setPlayerAttribute(playerId, newValue, attribute);
-    };
-
-    const handleRemoveAttribute = (playerId: string, attribute: PlayerAttributes, newValue: number) => {
-        setPlayerAttribute(playerId, newValue, attribute);
+    const handleChangeAttribute = <T extends PlayerAttribute>(
+        playerId: string,
+        attribute: T,
+        newValue: PlayerType[T]
+    ) => {
+        set(playerId, newValue, attribute);
     };
 
     return (
@@ -49,12 +49,9 @@ const Game = () => {
                 {players.map((player, i) => (
                     <Player
                         key={`player-${i}`}
-                        addAttribute={handleAddAttribute}
-                        removeAttribute={handleRemoveAttribute}
-                        id={player.id}
-                        name={player.name}
-                        life={player.life}
-                        poison={player.poison}
+                        addAttribute={handleChangeAttribute}
+                        removeAttribute={handleChangeAttribute}
+                        {...player}
                     />
                 ))}
             </PlayersContainer>
