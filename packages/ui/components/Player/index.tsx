@@ -1,4 +1,4 @@
-import { Player as PlayerType, PlayerAttribute, PlayerNumberAttribute } from 'types';
+import { Player as PlayerType, PlayerAttribute, NumberPlayerAttribute } from 'types';
 
 interface Props extends PlayerType {
     addAttribute: <T extends PlayerAttribute>(id: string, attribute: T, newValue: PlayerType[T]) => void;
@@ -8,7 +8,7 @@ interface Props extends PlayerType {
 export const Player = (props: Props) => {
     const { id, name, addAttribute, removeAttribute, ...attributes } = props;
 
-    const optionalNumberFields: { name: PlayerNumberAttribute; value: number }[] = [
+    const optionalNumberFields: { name: NumberPlayerAttribute; value: number }[] = [
         { name: 'life', value: attributes.life },
     ];
 

@@ -1,3 +1,6 @@
+type NumberKeys<T> = { [K in keyof T]: T[K] extends number ? K : never }[keyof T];
+type BooleanKeys<T> = { [K in keyof T]: T[K] extends boolean ? K : never }[keyof T];
+
 export interface GameState {
     id: string;
     players: Player[];
@@ -16,7 +19,8 @@ export interface Player {
     initiative: boolean;
 }
 
-export type PlayerNumberAttribute = 'life' | 'poison' | 'experience' | 'energy' | 'tickets';
-export type PlayerBooleanAttribute = 'monarch' | 'initiative';
-// export type PlayerAttribute = PlayerNumberAttribute | PlayerBooleanAttribute;
-export type PlayerAttribute = keyof Omit<Player, 'name' | 'id'>;
+type ChangeablePlayer = Omit<Player, 'name' | 'id'>;
+
+export type PlayerAttribute = keyof ChangeablePlayer;
+export type NumberPlayerAttribute = NumberKeys<ChangeablePlayer>;
+export type BooleanPlayerAttribute = BooleanKeys<ChangeablePlayer>;

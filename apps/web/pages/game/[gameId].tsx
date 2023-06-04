@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAddPlayer, useGameState } from 'state-manager';
 import { usePlayers, useSetGameID, useSetPlayerAttribute } from 'state-manager/hooks';
-import { Player as PlayerType, PlayerAttribute, PlayerBooleanAttribute, PlayerNumberAttribute } from 'types';
+import { Player as PlayerType, PlayerAttribute, BooleanPlayerAttribute, NumberPlayerAttribute } from 'types';
 import { GameContainer, GameMenu, GameMenuButton, Player, PlayersContainer } from 'ui';
 
 const Game = () => {
@@ -38,10 +38,10 @@ const Game = () => {
     ) => {
         switch (typeof newValue) {
             case 'boolean':
-                setBoolean(playerId, newValue, attribute as PlayerBooleanAttribute); // We know it's boolean, but this should be fixed
+                setBoolean(playerId, newValue, attribute as BooleanPlayerAttribute); // We know it's boolean, but this should be fixed
                 break;
             case 'number':
-                setNumber(playerId, newValue, attribute as PlayerNumberAttribute); // We know it's number, but this should be fixed
+                setNumber(playerId, newValue, attribute as NumberPlayerAttribute); // We know it's number, but this should be fixed
                 break;
         }
     };
