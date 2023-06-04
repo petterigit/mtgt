@@ -16,6 +16,7 @@ export interface Player {
     initiative: boolean;
 }
 
-export type PlayerNumberAttributes = 'life' | 'poison' | 'experience' | 'energy' | 'tickets';
-export type PlayerBooleanAttributes = 'monarch' | 'initiative';
-export type PlayerAttributes = PlayerNumberAttributes | PlayerBooleanAttributes;
+export type PlayerNumberAttribute = 'life' | 'poison' | 'experience' | 'energy' | 'tickets';
+export type PlayerBooleanAttribute = 'monarch' | 'initiative';
+// export type PlayerAttribute = PlayerNumberAttribute | PlayerBooleanAttribute;
+export type PlayerAttribute = keyof Omit<Player, 'name' | 'id'>;

@@ -1,14 +1,14 @@
-import { Player as PlayerType, PlayerAttributes, PlayerNumberAttributes } from 'types';
+import { Player as PlayerType, PlayerAttribute, PlayerNumberAttribute } from 'types';
 
 interface Props extends PlayerType {
-    addAttribute: (id: string, attribute: PlayerAttributes, newValue: boolean | number) => void;
-    removeAttribute: (id: string, attribute: PlayerAttributes, newValue: boolean | number) => void;
+    addAttribute: <T extends PlayerAttribute>(id: string, attribute: T, newValue: PlayerType[T]) => void;
+    removeAttribute: <T extends PlayerAttribute>(id: string, attribute: T, newValue: PlayerType[T]) => void;
 }
 
 export const Player = (props: Props) => {
     const { id, name, addAttribute, removeAttribute, ...attributes } = props;
 
-    const optionalNumberFields: { name: PlayerNumberAttributes; value: number }[] = [
+    const optionalNumberFields: { name: PlayerNumberAttribute; value: number }[] = [
         { name: 'life', value: attributes.life },
     ];
 

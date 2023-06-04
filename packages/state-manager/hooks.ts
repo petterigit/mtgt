@@ -1,11 +1,11 @@
 import { create } from 'zustand';
 import { GameStateActions } from './types';
-import { GameState, Player, PlayerAttributes, PlayerBooleanAttributes, PlayerNumberAttributes } from 'types';
+import { GameState, Player, PlayerAttribute, PlayerBooleanAttribute, PlayerNumberAttribute } from 'types';
 import { initialPlayer, initialState } from './inits';
 
 const useGameStateStore = create<GameState & GameStateActions>(set => ({
     ...initialState,
-    setPlayerNumberAttribute: (id: string, value: number, attribute: PlayerNumberAttributes) =>
+    setPlayerNumberAttribute: (id: string, value: number, attribute: PlayerNumberAttribute) =>
         set(state => {
             const newPlayers = [...state.players];
 
@@ -17,7 +17,7 @@ const useGameStateStore = create<GameState & GameStateActions>(set => ({
 
             return { players: newPlayers };
         }),
-    setPlayerBooleanAttribute: (id: string, value: boolean, attribute: PlayerBooleanAttributes) =>
+    setPlayerBooleanAttribute: (id: string, value: boolean, attribute: PlayerBooleanAttribute) =>
         set(state => {
             const newPlayers = [...state.players];
 
