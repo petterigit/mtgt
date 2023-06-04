@@ -1,8 +1,9 @@
-import { PlayerAttributes } from 'types';
+import { PlayerBooleanAttributes, PlayerNumberAttributes } from 'types';
 
 export interface GameStateActions {
     addPlayer: () => void;
-    setPlayerAttribute: (id: string, value: number | boolean, attribute: PlayerAttributes) => void;
+    setPlayerNumberAttribute: (id: string, value: number, attribute: PlayerNumberAttributes) => void;
+    setPlayerBooleanAttribute: (id: string, value: boolean, attribute: PlayerBooleanAttributes) => void;
     setGameID: (id: string) => void;
     reset: (gameID: string) => void;
 }

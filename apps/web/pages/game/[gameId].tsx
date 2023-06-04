@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAddPlayer, useGameState } from 'state-manager';
 import { usePlayers, useSetGameID, useSetPlayerAttribute } from 'state-manager/hooks';
-import { PlayerAttributes } from 'types';
+import { PlayerAttributes, PlayerBooleanAttributes, PlayerNumberAttributes } from 'types';
 import { GameContainer, GameMenu, GameMenuButton, Player, PlayersContainer } from 'ui';
 
 const Game = () => {
@@ -11,7 +11,7 @@ const Game = () => {
     const [openModal, setOpenModal] = useState(false);
 
     const addPlayer = useAddPlayer();
-    const setPlayerAttribute = useSetPlayerAttribute();
+    const { setBoolean, setNumber } = useSetPlayerAttribute();
     const players = usePlayers();
     const setGameID = useSetGameID();
 
@@ -21,7 +21,7 @@ const Game = () => {
             return;
         }
         setGameID(gameId);
-    }, [gameId]);
+    }, [gameId, setGameID]);
 
     const leaveGame = () => {
         router.push('/');
@@ -31,12 +31,15 @@ const Game = () => {
         setOpenModal(false);
     };
 
-    const handleAddAttribute = (playerId: string, attribute: PlayerAttributes, newValue: number | boolean) => {
-        setPlayerAttribute(playerId, newValue, attribute);
-    };
-
-    const handleRemoveAttribute = (playerId: string, attribute: PlayerAttributes, newValue: number | boolean) => {
-        setPlayerAttribute(playerId, newValue, attribute);
+    const handleChangeAttribute = (playerId: string, attribute: PlayerAttributes, newValue: number | boolean) => {
+        switch (typeof newValue) {
+            case 'boolean':
+                setBoolean(playerId, newValue, attribute as PlayerBooleanAttributes); // We know it's boolean, but this should be fixed
+                break;
+            case 'number':
+                setNumber(playerId, newValue, attribute as PlayerNumberAttributes); // We know it's number, but this should be fixed
+                break;
+        }
     };
 
     return (
@@ -48,8 +51,8 @@ const Game = () => {
                 {players.map((player, i) => (
                     <Player
                         key={`player-${i}`}
-                        addAttribute={handleAddAttribute}
-                        removeAttribute={handleRemoveAttribute}
+                        addAttribute={handleChangeAttribute}
+                        removeAttribute={handleChangeAttribute}
                         {...player}
                     />
                 ))}

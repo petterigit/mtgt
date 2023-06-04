@@ -6,9 +6,15 @@ export const initialState: GameState = {
     players: [],
 };
 
-export const initialPlayer = () => ({
+export const initialPlayer = (): Player => ({
     name: createUniqueName(),
+    id: generateId(),
+    commanders: [],
     life: 40,
     poison: 0,
-    id: generateId(),
+    experience: 0,
+    energy: 0,
+    tickets: 0,
+    monarch: false,
+    initiative: false,
 });

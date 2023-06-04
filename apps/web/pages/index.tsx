@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { Button, LobbyContainer, PageContainer } from 'ui';
+import { LobbyContainer } from 'ui';
 
 const Web = () => {
     const router = useRouter();
