@@ -9,7 +9,11 @@ import {
 import { Server, Socket } from 'socket.io';
 
 @Injectable()
-@WebSocketGateway(5080)
+@WebSocketGateway(5080, {
+  cors: {
+    origin: '*',
+  },
+})
 export class StateGateway
   implements OnGatewayConnection<Socket>, OnGatewayDisconnect
 {
@@ -27,5 +31,10 @@ export class StateGateway
   @SubscribeMessage('message')
   handleMessage(client: Socket, payload: any): string {
     return 'Hello world!';
+  }
+  @SubscribeMessage('state')
+  handleState(client: Socket, payload: any): string {
+    console.log(payload);
+    return 'State received, thanks fam';
   }
 }

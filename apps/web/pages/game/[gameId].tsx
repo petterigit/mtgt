@@ -20,8 +20,8 @@ const Game = () => {
 
     // Broadcast state on change
     useEffect(() => {
-        const socket = io('https://localhost:5080');
-        //socket.emit('message');
+        const socket = io('http://localhost:5080');
+        socket.emit('state', gameState);
     }, [gameState]);
 
     // Set ID of state whenever it changes
