@@ -1,10 +1,10 @@
-import { NextServer } from 'next/dist/server/next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAddPlayer, useGameState } from 'state-manager';
 import { usePlayers, useSetGameID, useSetPlayerAttribute } from 'state-manager/hooks';
 import { Player as PlayerType, PlayerAttribute } from 'types';
 import { GameContainer, GameMenu, GameMenuButton, Player, PlayersContainer } from 'ui';
+import { io } from 'socket.io-client';
 
 const Game = () => {
     const router = useRouter();
@@ -15,6 +15,14 @@ const Game = () => {
     const { set } = useSetPlayerAttribute();
     const players = usePlayers();
     const setGameID = useSetGameID();
+
+    const gameState = useGameState();
+
+    // Broadcast state on change
+    useEffect(() => {
+        const socket = io('https://localhost:5080');
+        //socket.emit('message');
+    }, [gameState]);
 
     // Set ID of state whenever it changes
     useEffect(() => {
