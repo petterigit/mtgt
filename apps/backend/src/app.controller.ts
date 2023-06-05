@@ -55,9 +55,13 @@ export class AppController {
     const mainSocketId = this.appService.getRoomMainSocketId(roomId);
 
     if (mainSocketId === socketId) {
+      console.log('room.socketIds', room.socketIds);
+      console.log('socketIds', socketId);
+      console.log('mainSocketId', mainSocketId);
+
       room.socketIds.forEach((id) => {
         if (id !== mainSocketId) {
-          this.stateGateway.server.to(socketId).emit('state', state);
+          this.stateGateway.server.to(id).emit('state', state);
         }
       });
     } else {
