@@ -1,10 +1,11 @@
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAddPlayer, useGameState } from 'state-manager';
 import { usePlayers, useSetGameID, useSetPlayerAttribute } from 'state-manager/hooks';
 import { Player as PlayerType, PlayerAttribute } from 'types';
 import { GameContainer, GameMenu, GameMenuButton, Player, PlayersContainer } from 'ui';
-import { io } from 'socket.io-client';
+import { socket } from '..';
 
 const Game = () => {
     const router = useRouter();
@@ -20,9 +21,27 @@ const Game = () => {
 
     // Broadcast state on change
     useEffect(() => {
-        const socket = io('http://localhost:5080');
-        socket.emit('state', gameState);
+        // socket.emit('state', gameState);
+        axios
+            .post('http://localhost:5000/update', {
+                roomId: gameId,
+                socketId: socket.id,
+                state: gameState,
+            })
+            .then(res => {
+                console.log('päivitettiin tai jotain', res);
+            });
     }, [gameState]);
+
+    useEffect(() => {
+        socket.on('state', (state: any) => {
+            console.log('saatiin state', state);
+        });
+
+        return () => {
+            socket.off('state');
+        };
+    }, []);
 
     // Set ID of state whenever it changes
     useEffect(() => {
