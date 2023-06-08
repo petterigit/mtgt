@@ -19,7 +19,7 @@ const Game = () => {
 
     const gameState = useGameState();
 
-    // Broadcast state on change
+    // Whenever the game state changes, we need to update the state to other users.
     useEffect(() => {
         // socket.emit('state', gameState);
         axios
