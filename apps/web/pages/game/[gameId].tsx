@@ -34,7 +34,7 @@ const Game = () => {
     }, [gameState]);
 
     useEffect(() => {
-        socket.on('state', (state: any) => {
+        const stateHandler = (state: any) => {
             console.log('saatiin state', state);
             console.log('Mergetään state omaan stateen ja päivitetään uusi state kaikille');
 
@@ -51,9 +51,9 @@ const Game = () => {
                 .then(res => {
                     console.log('päivitettiin tai jotain', res);
                 });
-        });
+        };
 
-        socket.on('forceUpdate', () => {
+        const forceUpdateHandler = () => {
             console.log('Joku liittyi huoneeseen, päivitetään oma state kaikille');
 
             axios
@@ -65,11 +65,20 @@ const Game = () => {
                 .then(res => {
                     console.log('päivitettiin tai jotain', res);
                 });
-        });
+        };
+
+        const youAreTheMasterNowHandler = () => {
+            console.log('Olen nyt pää');
+        };
+
+        socket.on('state', stateHandler);
+        socket.on('forceUpdate', forceUpdateHandler);
+        socket.on('youAreTheMasterNow', youAreTheMasterNowHandler);
 
         return () => {
-            socket.off('state');
-            socket.off('forceUpdate');
+            socket.off('state', stateHandler);
+            socket.off('forceUpdate', forceUpdateHandler);
+            socket.off('youAreTheMasterNow', youAreTheMasterNowHandler);
         };
     }, []);
 

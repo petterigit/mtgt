@@ -44,6 +44,8 @@ export class StateGateway
         const newMainSocketId = room.socketIds.values().next().value;
 
         room.mainSocketId = newMainSocketId;
+
+        this.server.to(newMainSocketId).emit('youAreTheMasterNow');
       }
     });
 
