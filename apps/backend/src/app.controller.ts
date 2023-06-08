@@ -28,6 +28,10 @@ export class AppController {
       response.status(HttpStatus.CREATED).send();
     } else {
       response.status(HttpStatus.OK).send();
+
+      const mainSocketId = this.appService.getRoomMainSocketId(roomId);
+
+      this.stateGateway.server.to(mainSocketId).emit('forceUpdate');
     }
   }
 

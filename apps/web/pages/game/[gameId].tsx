@@ -36,10 +36,40 @@ const Game = () => {
     useEffect(() => {
         socket.on('state', (state: any) => {
             console.log('saatiin state', state);
+            console.log('Mergetään state omaan stateen ja päivitetään uusi state kaikille');
+
+            // TODO: Hanskaa jotenkin kivasti :]
+            const mergedState = { ...gameState, ...state };
+            // setGameState(mergedState); tms
+
+            axios
+                .post('http://localhost:5000/update', {
+                    roomId: gameId,
+                    socketId: socket.id,
+                    state: mergedState,
+                })
+                .then(res => {
+                    console.log('päivitettiin tai jotain', res);
+                });
+        });
+
+        socket.on('forceUpdate', () => {
+            console.log('Joku liittyi huoneeseen, päivitetään oma state kaikille');
+
+            axios
+                .post('http://localhost:5000/update', {
+                    roomId: gameId,
+                    socketId: socket.id,
+                    state: gameState,
+                })
+                .then(res => {
+                    console.log('päivitettiin tai jotain', res);
+                });
         });
 
         return () => {
             socket.off('state');
+            socket.off('forceUpdate');
         };
     }, []);
 
