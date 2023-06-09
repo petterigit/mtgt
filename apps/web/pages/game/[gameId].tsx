@@ -26,21 +26,22 @@ const Game = () => {
                 socketId: socket.id,
                 state: gameState,
             })
-          
-    }
+            .then()
+            .catch(err => {
+                console.log(err);
+            });
+    };
 
     // Whenever the game state changes, we need to update the state to other users.
     useEffect(() => {
-      postGameState();
+        postGameState();
     }, [gameState]);
-
-
 
     useEffect(() => {
         const stateHandler = (state: any) => {
             setGameState.set(state);
         };
-        const forceUpdateHandler = postGameState
+        const forceUpdateHandler = postGameState;
         const youAreTheMasterNowHandler = () => {
             console.log('Olen nyt pää');
         };
@@ -51,7 +52,7 @@ const Game = () => {
 
         return () => {
             // When leaving game, disconnect socket. Connection when joining
-            socket.disconnect();
+            // socket.disconnect();
             /*
             socket.off('state', stateHandler);
             socket.off('forceUpdate', forceUpdateHandler);

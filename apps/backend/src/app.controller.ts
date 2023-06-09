@@ -1,11 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  HttpStatus,
-  Post,
-  Res,
-} from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { AppService } from './app.service';
 import { RoomId, SocketId, getRooms } from './rooms';
 import { StateGateway } from './state.gateway';
@@ -52,12 +45,16 @@ export class AppController {
     const room = this.appService.getRoom(roomId);
 
     if (!room) {
-      response.status(HttpStatus.NOT_FOUND).send("Could not find room with given roomId");
+      response
+        .status(HttpStatus.AMBIGUOUS)
+        .send('Could not find room with given roomId');
       return;
     }
 
     if (!room.socketIds.has(socketId)) {
-      response.status(HttpStatus.UNAUTHORIZED).send("You are not permitted to update this room");
+      response
+        .status(HttpStatus.UNAUTHORIZED)
+        .send('You are not permitted to update this room');
       return;
     }
 
