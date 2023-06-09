@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
-  SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
@@ -50,16 +49,5 @@ export class StateGateway
     });
 
     setRooms(rooms);
-  }
-
-  @SubscribeMessage('message')
-  handleMessage(client: Socket, payload: unknown): string {
-    return 'Hello world!';
-  }
-
-  @SubscribeMessage('state')
-  handleState(client: Socket, payload: unknown): string {
-    console.log(payload);
-    return 'State received, thanks fam';
   }
 }

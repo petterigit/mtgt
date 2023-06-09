@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAddPlayer, useGameState } from 'state-manager';
-import { usePlayers, useSetGameID, useSetPlayerAttribute } from 'state-manager/hooks';
-import { Player as PlayerType, PlayerAttribute } from 'types';
+import { usePlayers, useSetGameID, useSetGameState, useSetPlayerAttribute } from 'state-manager/hooks';
+import { Player as PlayerType, PlayerAttribute, GameState } from 'types';
 import { GameContainer, GameMenu, GameMenuButton, Player, PlayersContainer } from 'ui';
 import { socket } from '..';
 
@@ -16,8 +16,8 @@ const Game = () => {
     const { set } = useSetPlayerAttribute();
     const players = usePlayers();
     const setGameID = useSetGameID();
-
     const gameState = useGameState();
+    const setGameState = useSetGameState();
 
     // Whenever the game state changes, we need to update the state to other users.
     useEffect(() => {
@@ -37,10 +37,8 @@ const Game = () => {
         const stateHandler = (state: any) => {
             console.log('saatiin state', state);
             console.log('Mergetään state omaan stateen ja päivitetään uusi state kaikille');
-
-            // TODO: Hanskaa jotenkin kivasti :]
             const mergedState = { ...gameState, ...state };
-            // setGameState(mergedState); tms
+            setGameState.set(mergedState);
 
             axios
                 .post('http://localhost:5000/update', {

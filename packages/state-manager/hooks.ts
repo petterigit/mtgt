@@ -5,6 +5,7 @@ import { initialPlayer, initialState } from './inits';
 
 const useGameStateStore = create<GameState & GameStateActions>(set => ({
     ...initialState,
+    setGameState: (gamestate: GameState) => set(state => gamestate),
     setPlayerAttribute: <T extends PlayerAttribute>(id: string, value: Player[T], attribute: T) =>
         set(state => {
             const newPlayers = [...state.players];
@@ -44,4 +45,8 @@ export const useAddPlayer = () => {
 
 export const useSetPlayerAttribute = () => ({
     set: useGameStateStore(state => state.setPlayerAttribute),
+});
+
+export const useSetGameState = () => ({
+    set: useGameStateStore(state => state.setGameState),
 });
