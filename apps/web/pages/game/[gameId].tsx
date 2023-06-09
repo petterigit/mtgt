@@ -19,52 +19,28 @@ const Game = () => {
     const gameState = useGameState();
     const setGameState = useSetGameState();
 
-    // Whenever the game state changes, we need to update the state to other users.
-    useEffect(() => {
-        // socket.emit('state', gameState);
+    const postGameState = () => {
         axios
             .post('http://localhost:5000/update', {
                 roomId: gameId,
                 socketId: socket.id,
                 state: gameState,
             })
-            .then(res => {
-                console.log('päivitettiin tai jotain', res);
-            });
+          
+    }
+
+    // Whenever the game state changes, we need to update the state to other users.
+    useEffect(() => {
+      postGameState();
     }, [gameState]);
+
+
 
     useEffect(() => {
         const stateHandler = (state: any) => {
-            console.log('saatiin state', state);
-            console.log('Mergetään state omaan stateen ja päivitetään uusi state kaikille');
-            const mergedState = { ...gameState, ...state };
-            setGameState.set(mergedState);
-
-            axios
-                .post('http://localhost:5000/update', {
-                    roomId: gameId,
-                    socketId: socket.id,
-                    state: mergedState,
-                })
-                .then(res => {
-                    console.log('päivitettiin tai jotain', res);
-                });
+            setGameState.set(state);
         };
-
-        const forceUpdateHandler = () => {
-            console.log('Joku liittyi huoneeseen, päivitetään oma state kaikille');
-
-            axios
-                .post('http://localhost:5000/update', {
-                    roomId: gameId,
-                    socketId: socket.id,
-                    state: gameState,
-                })
-                .then(res => {
-                    console.log('päivitettiin tai jotain', res);
-                });
-        };
-
+        const forceUpdateHandler = postGameState
         const youAreTheMasterNowHandler = () => {
             console.log('Olen nyt pää');
         };
@@ -74,9 +50,13 @@ const Game = () => {
         socket.on('youAreTheMasterNow', youAreTheMasterNowHandler);
 
         return () => {
+            // When leaving game, disconnect socket. Connection when joining
+            socket.disconnect();
+            /*
             socket.off('state', stateHandler);
             socket.off('forceUpdate', forceUpdateHandler);
             socket.off('youAreTheMasterNow', youAreTheMasterNowHandler);
+            */
         };
     }, []);
 

@@ -3,7 +3,6 @@ import {
   Controller,
   Get,
   HttpStatus,
-  Param,
   Post,
   Res,
 } from '@nestjs/common';
@@ -53,12 +52,12 @@ export class AppController {
     const room = this.appService.getRoom(roomId);
 
     if (!room) {
-      response.status(HttpStatus.NOT_FOUND).send();
+      response.status(HttpStatus.NOT_FOUND).send("Could not find room with given roomId");
       return;
     }
 
     if (!room.socketIds.has(socketId)) {
-      response.status(HttpStatus.UNAUTHORIZED).send();
+      response.status(HttpStatus.UNAUTHORIZED).send("You are not permitted to update this room");
       return;
     }
 
