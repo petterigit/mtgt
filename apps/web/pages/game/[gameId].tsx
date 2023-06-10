@@ -5,21 +5,22 @@ import { useAddPlayer, useGameState } from 'state-manager';
 import { usePlayers, useSetGameID, useSetGameState, useSetPlayerAttribute } from 'state-manager/hooks';
 import { Player as PlayerType, PlayerAttribute, GameState } from 'types';
 import { GameContainer, GameMenu, GameMenuButton, Player, PlayersContainer } from 'ui';
-import { socket } from '..';
+import { Socket, io } from 'socket.io-client';
 
 const Game = () => {
     const router = useRouter();
     const { gameId } = router.query;
     const [openModal, setOpenModal] = useState(false);
-
     const addPlayer = useAddPlayer();
     const { set } = useSetPlayerAttribute();
     const players = usePlayers();
     const setGameID = useSetGameID();
     const gameState = useGameState();
     const setGameState = useSetGameState();
+    const [socket, setSocket] = useState<Socket | null>(null);
 
     const postGameState = () => {
+        if (!socket) return;
         axios
             .post('http://localhost:5000/update', {
                 roomId: gameId,
@@ -32,12 +33,35 @@ const Game = () => {
             });
     };
 
+    const joinGame = (socketId: string) => {
+        axios
+            .post('http://localhost:5000/join', {
+                roomId: gameId,
+                socketId: socketId,
+            })
+            .then(res => {
+                if (res.status === 200) {
+                    console.log('en oo pää');
+                }
+                if (res.status === 201) {
+                    console.log('olen pää');
+                }
+            });
+    };
+
     // Whenever the game state changes, we need to update the state to other users.
     useEffect(() => {
         postGameState();
     }, [gameState]);
 
     useEffect(() => {
+        const socket = io('http://localhost:5080');
+
+        socket.on('connect', () => {
+            setSocket(socket);
+            joinGame(socket.id);
+        });
+
         const stateHandler = (state: any) => {
             setGameState.set(state);
         };
@@ -52,7 +76,7 @@ const Game = () => {
 
         return () => {
             // When leaving game, disconnect socket. Connection when joining
-            // socket.disconnect();
+            socket.disconnect();
             /*
             socket.off('state', stateHandler);
             socket.off('forceUpdate', forceUpdateHandler);
