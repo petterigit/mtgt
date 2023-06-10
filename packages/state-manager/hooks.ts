@@ -16,23 +16,20 @@ const useGameStateStore = create<GameState & GameStateActions>(set => ({
                 break;
             }
 
-            return { players: newPlayers };
+            return { version: state.version + 1, players: newPlayers };
         }),
-    setGameID: id => set(state => ({ id: id })),
-    addPlayer: () => set(state => ({ players: [...state.players, initialPlayer()] })),
-    reset: (gameId: string) =>
+    addPlayer: () => set(state => ({ version: state.version + 1, players: [...state.players, initialPlayer()] })),
+    reset: () =>
         set({
             ...initialState,
-            id: gameId,
         }),
 }));
 
 export const useGameState = () => {
-    return useGameStateStore(state => state);
-};
-
-export const useSetGameID = () => {
-    return useGameStateStore(state => state.setGameID);
+    return useGameStateStore(state => ({
+        players: state.players,
+        version: state.version,
+    }));
 };
 
 export const usePlayers = () => {
@@ -43,10 +40,10 @@ export const useAddPlayer = () => {
     return useGameStateStore(state => state.addPlayer);
 };
 
-export const useSetPlayerAttribute = () => ({
-    set: useGameStateStore(state => state.setPlayerAttribute),
-});
+export const useSetPlayerAttribute = () => {
+    return useGameStateStore(state => state.setPlayerAttribute);
+};
 
-export const useSetGameState = () => ({
-    set: useGameStateStore(state => state.setGameState),
-});
+export const useSetGameState = () => {
+    return useGameStateStore(state => state.setGameState);
+};

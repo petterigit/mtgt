@@ -2,8 +2,8 @@ import { GameState, Player } from 'types';
 import { createUniqueName, generateId } from 'utils';
 
 export const initialState: GameState = {
-    id: '',
     players: [],
+    version: 0,
 };
 
 export const initialPlayer = (): Player => ({

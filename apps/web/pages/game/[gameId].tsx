@@ -12,86 +12,45 @@ const Game = () => {
     const { gameId } = router.query;
     const [openModal, setOpenModal] = useState(false);
     const addPlayer = useAddPlayer();
-    const { set } = useSetPlayerAttribute();
+    const setPlayerAttribute = useSetPlayerAttribute();
     const players = usePlayers();
-    const setGameID = useSetGameID();
     const gameState = useGameState();
     const setGameState = useSetGameState();
     const [socket, setSocket] = useState<Socket | null>(null);
 
-    const postGameState = () => {
-        if (!socket) return;
-        axios
-            .post('http://localhost:5000/update', {
-                roomId: gameId,
-                socketId: socket.id,
-                state: gameState,
-            })
-            .then()
-            .catch(err => {
-                console.log(err);
-            });
+    const stateHandler = (state: GameState) => {
+        if (state.version === gameState.version) {
+            return;
+        }
+        setGameState(state);
     };
 
-    const joinGame = (socketId: string) => {
-        axios
-            .post('http://localhost:5000/join', {
-                roomId: gameId,
-                socketId: socketId,
-            })
-            .then(res => {
-                if (res.status === 200) {
-                    console.log('en oo pää');
-                }
-                if (res.status === 201) {
-                    console.log('olen pää');
-                }
-            });
-    };
-
-    // Whenever the game state changes, we need to update the state to other users.
     useEffect(() => {
-        postGameState();
-    }, [gameState]);
+        if (!socket?.connected) return;
+        axios.post('http://localhost:5000/update', {
+            roomId: gameId,
+            socketId: socket.id,
+            state: gameState,
+        });
+    }, [gameState.version]);
 
     useEffect(() => {
         const socket = io('http://localhost:5080');
 
         socket.on('connect', () => {
             setSocket(socket);
-            joinGame(socket.id);
+            axios.post('http://localhost:5000/join', {
+                roomId: gameId,
+                socketId: socket.id,
+            });
         });
 
-        const stateHandler = (state: any) => {
-            setGameState.set(state);
-        };
-        const forceUpdateHandler = postGameState;
-        const youAreTheMasterNowHandler = () => {
-            console.log('Olen nyt pää');
-        };
-
         socket.on('state', stateHandler);
-        socket.on('forceUpdate', forceUpdateHandler);
-        socket.on('youAreTheMasterNow', youAreTheMasterNowHandler);
 
         return () => {
-            // When leaving game, disconnect socket. Connection when joining
             socket.disconnect();
-            /*
-            socket.off('state', stateHandler);
-            socket.off('forceUpdate', forceUpdateHandler);
-            socket.off('youAreTheMasterNow', youAreTheMasterNowHandler);
-            */
         };
     }, []);
-
-    // Set ID of state whenever it changes
-    useEffect(() => {
-        if (typeof gameId !== 'string') {
-            return;
-        }
-        setGameID(gameId);
-    }, [gameId, setGameID]);
 
     const leaveGame = () => {
         router.push('/');
@@ -106,7 +65,7 @@ const Game = () => {
         attribute: T,
         newValue: PlayerType[T]
     ) => {
-        set(playerId, newValue, attribute);
+        setPlayerAttribute(playerId, newValue, attribute);
     };
 
     return (

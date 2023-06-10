@@ -28,9 +28,9 @@ export class AppController {
       response.status(HttpStatus.CREATED).send();
     } else {
       response.status(HttpStatus.OK).send();
-
       const mainSocketId = this.appService.getRoomMainSocketId(roomId);
 
+      // Force update might be required when joining game even if not implemented in frontend
       this.stateGateway.server.to(mainSocketId).emit('forceUpdate');
     }
   }
@@ -58,17 +58,9 @@ export class AppController {
       return;
     }
 
-    const mainSocketId = this.appService.getRoomMainSocketId(roomId);
-
-    if (mainSocketId === socketId) {
-      room.socketIds.forEach((id) => {
-        if (id !== mainSocketId) {
-          this.stateGateway.server.to(id).emit('state', state);
-        }
-      });
-    } else {
-      this.stateGateway.server.to(mainSocketId).emit('state', state);
-    }
+    room.socketIds.forEach((id) => {
+      this.stateGateway.server.to(id).emit('state', state);
+    });
 
     response.status(HttpStatus.OK).send();
   }
