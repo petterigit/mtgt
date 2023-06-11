@@ -27,8 +27,8 @@ const useGameStateStore = create<GameState & GameStateActions>(set => ({
 
 export const useGameState = () => {
     return useGameStateStore(state => ({
-        players: state.players,
         version: state.version,
+        players: state.players,
     }));
 };
 
@@ -46,4 +46,7 @@ export const useSetPlayerAttribute = () => {
 
 export const useSetGameState = () => {
     return useGameStateStore(state => state.setGameState);
+};
+export const useResetGameState = () => {
+    return useGameStateStore(state => state.reset);
 };

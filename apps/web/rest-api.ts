@@ -11,3 +11,11 @@ export const updateState = (state: GameState, roomId: string | string[], socketI
         state: state,
     });
 };
+
+export const joinGame = (roomId: string | string[], socketId: string) => {
+    if (typeof roomId !== 'string') return; // TODO: this somewhere else
+    axios.post('http://localhost:5000/join', {
+        roomId: roomId,
+        socketId: socketId,
+    });
+};

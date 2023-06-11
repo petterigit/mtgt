@@ -44,7 +44,7 @@ export class AppController {
 
     if (!room) {
       response
-        .status(HttpStatus.AMBIGUOUS)
+        .status(HttpStatus.NOT_FOUND)
         .send('Could not find room with given roomId');
       return;
     }
