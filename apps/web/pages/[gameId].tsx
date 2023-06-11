@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAddPlayer, useGameState } from 'state-manager';
-import { usePlayers, useSetGameID, useSetGameState, useSetPlayerAttribute } from 'state-manager/hooks';
+import { usePlayers, useSetGameState, useSetPlayerAttribute } from 'state-manager/hooks';
 import { Player as PlayerType, PlayerAttribute, GameState } from 'types';
 import { GameContainer, GameMenu, GameMenuButton, Player, PlayersContainer } from 'ui';
 import { Socket, io } from 'socket.io-client';

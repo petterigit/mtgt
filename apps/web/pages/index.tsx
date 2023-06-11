@@ -9,11 +9,11 @@ const Web = () => {
             .toString()
             .padStart(4, '0');
 
-        router.push(`/game/${randomGameID}`);
+        router.push(`/${randomGameID}`);
     };
 
     const joinGame = (gameID: string) => {
-        router.push(`/game/${gameID}`);
+        router.push(`/${gameID}`);
     };
 
     return <LobbyContainer createGame={newGame} joinGame={value => joinGame(value)}></LobbyContainer>;
