@@ -6,6 +6,7 @@ import { usePlayers, useSetGameState, useSetPlayerAttribute } from 'state-manage
 import { Player as PlayerType, PlayerAttribute, GameState } from 'types';
 import { GameContainer, GameMenu, GameMenuButton, Player, PlayersContainer } from 'ui';
 import { Socket, io } from 'socket.io-client';
+import { updateState } from '../rest-api';
 
 const Game = () => {
     const router = useRouter();
@@ -19,7 +20,8 @@ const Game = () => {
     const [socket, setSocket] = useState<Socket | null>(null);
 
     const stateHandler = (state: GameState) => {
-        if (state.version === gameState.version) {
+        // If other clients send a state that is older, don't update
+        if (state.version <= gameState.version) {
             return;
         }
         setGameState(state);
@@ -27,11 +29,8 @@ const Game = () => {
 
     useEffect(() => {
         if (!socket?.connected) return;
-        axios.post('http://localhost:5000/update', {
-            roomId: gameId,
-            socketId: socket.id,
-            state: gameState,
-        });
+
+        updateState(gameState, gameId, socket.id);
     }, [gameState.version]);
 
     useEffect(() => {
@@ -46,6 +45,11 @@ const Game = () => {
         });
 
         socket.on('state', stateHandler);
+
+        socket.on('force-update-state', () => {
+            console.log('Force updating');
+            updateState(gameState, gameId, socket.id);
+        });
 
         return () => {
             socket.disconnect();

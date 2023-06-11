@@ -29,9 +29,7 @@ export class AppController {
     } else {
       response.status(HttpStatus.OK).send();
       const mainSocketId = this.appService.getRoomMainSocketId(roomId);
-
-      // Force update might be required when joining game even if not implemented in frontend
-      this.stateGateway.server.to(mainSocketId).emit('forceUpdate');
+      this.stateGateway.server.to(mainSocketId).emit('force-update-state');
     }
   }
 
