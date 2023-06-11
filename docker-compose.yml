@@ -1,0 +1,11 @@
+services:
+    backend:
+        image: backend
+        build:
+            context: .
+            dockerfile: apps/backend/Dockerfile
+        web:
+            image: web
+            build:
+                context: .
+                dockerfile: apps/web/Dockerfile
