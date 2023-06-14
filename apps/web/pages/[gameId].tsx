@@ -40,7 +40,9 @@ const Game = () => {
             socket.off('state', stateHandler);
             socket.off('force-update-state', onForceUpdate);
         };
-    }, [gameState.version, gameId, gameState, setGameState]);
+        // Should have more deps but doesn't work :c
+        // gameId, gameState, setGameState
+    }, [gameState.version]);
 
     useEffect(() => {
         socket.connect();
@@ -58,7 +60,9 @@ const Game = () => {
             socket.off('connect', onConnect);
             socket.disconnect();
         };
-    }, [gameId, gameState.version, resetGameState]);
+        // Should have more deps but doesn't work :c
+        // gameId, gameState.version, resetGameState
+    }, []);
 
     const leaveGame = () => {
         router.push('/');
