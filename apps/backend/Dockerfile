@@ -17,7 +17,7 @@ RUN turbo prune --scope=backend --docker
 
 ### Installer ### 
 
-FROM base AS installer
+FROM base AS runner
 RUN apk add --no-cache libc6-compat
 RUN apk update
 WORKDIR /app
@@ -30,10 +30,7 @@ RUN pnpm install
 COPY --from=builder /app/out/full/ .
 RUN pnpm turbo run build --filter=backend
 
-FROM base AS runner
-WORKDIR /app
 
-COPY --from=installer /app/apps/backend/package.json .
 
 # Start the server using the production build
-CMD [ "node", "dist/main.js" ]
+CMD [ "node", "/app/apps/backend/dist/main.js" ]
