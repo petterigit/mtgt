@@ -10,73 +10,73 @@
 name: Create and publish a Docker image
 
 on:
-  push:
-    branches: ['release']
+    push:
+        branches: ['release']
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+    REGISTRY: ghcr.io
+    IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build-and-push-web-image:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+    build-and-push-web-image:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            packages: write
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@v2
-        with:
-          registry: gchr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+            - name: Log in to the Container registry
+              uses: docker/login-action@v2
+              with:
+                  registry: gchr.io
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: gchr.io/mtgt-web
+            - name: Extract metadata (tags, labels) for Docker
+              id: meta
+              uses: docker/metadata-action@v4
+              with:
+                  images: gchr.io/mtgt-web
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          file: apps/web/Dockerfile
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-  build-and-push-backend-image:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+            - name: Build and push Docker image
+              uses: docker/build-push-action@v4
+              with:
+                  file: apps/web/Dockerfile
+                  context: .
+                  push: true
+                  tags: ${{ steps.meta.outputs.tags }}
+                  labels: ${{ steps.meta.outputs.labels }}
+    build-and-push-backend-image:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            packages: write
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@v2
-        with:
-          registry: gchr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+            - name: Log in to the Container registry
+              uses: docker/login-action@v2
+              with:
+                  registry: gchr.io
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v4
-        with:
-          images: gchr.io/mtgt-backend
+            - name: Extract metadata (tags, labels) for Docker
+              id: meta
+              uses: docker/metadata-action@v4
+              with:
+                  images: gchr.io/mtgt-backend
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v4
-        with:
-          file: apps/backend/Dockerfile
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+            - name: Build and push Docker image
+              uses: docker/build-push-action@v4
+              with:
+                  file: apps/backend/Dockerfile
+                  context: .
+                  push: true
+                  tags: ${{ steps.meta.outputs.tags }}
+                  labels: ${{ steps.meta.outputs.labels }}
