@@ -1,6 +1,6 @@
 import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { AppService } from './app.service';
-import { RoomId, SocketId, getRooms } from './rooms';
+import { RoomId, SocketId } from './rooms';
 import { StateGateway } from './state.gateway';
 import { Response } from 'express';
 

@@ -3,10 +3,6 @@ import { getRooms, RoomId, setRooms, SocketId } from './rooms';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
-  }
-
   getRoom(id: RoomId) {
     const room = getRooms().find((room) => room.id === id);
 

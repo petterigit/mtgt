@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { GameState } from 'types';
 
-axios.defaults.baseURL = 'http://localhost:5000'; // TODO: from env
+axios.defaults.baseURL = 'http://localhost:5000';
 
 export const updateState = (state: GameState, roomId: string | string[], socketId: string) => {
     if (typeof roomId !== 'string') return; // TODO: this somewhere else
@@ -14,7 +14,7 @@ export const updateState = (state: GameState, roomId: string | string[], socketI
 
 export const joinGame = (roomId: string | string[], socketId: string) => {
     if (typeof roomId !== 'string') return; // TODO: this somewhere else
-    axios.post('http://localhost:5000/join', {
+    axios.post('/join', {
         roomId: roomId,
         socketId: socketId,
     });

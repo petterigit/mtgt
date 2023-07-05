@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAddPlayer, useGameState } from 'state-manager';
 import { usePlayers, useResetGameState, useSetGameState, useSetPlayerAttribute } from 'state-manager/hooks';
 import { Player as PlayerType, PlayerAttribute, GameState } from 'types';
