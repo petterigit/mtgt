@@ -9,7 +9,8 @@ import { Server, Socket } from 'socket.io';
 import { getRooms, setRooms } from './rooms';
 
 @Injectable()
-@WebSocketGateway(5080, {
+@WebSocketGateway({
+  port: parseInt(process.env.WS_PORT || '5080'),
   cors: {
     origin: '*',
   },

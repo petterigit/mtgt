@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { GameState } from 'types';
 
-axios.defaults.baseURL = 'http://localhost:5000';
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
 export const updateState = (state: GameState, roomId: string | string[], socketId: string) => {
     if (typeof roomId !== 'string') return; // TODO: this somewhere else
