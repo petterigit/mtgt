@@ -82,6 +82,7 @@ const Game = () => {
 
     return (
         <GameContainer>
+            <p>Room ID: {gameId}</p>
             <div style={{ alignSelf: 'center', padding: '8em' }}>
                 <GameMenuButton onClick={() => setOpenModal(true)} />
             </div>

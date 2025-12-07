@@ -1,16 +1,14 @@
 services:
     backend:
-        image: backend
         build:
             context: .
             dockerfile: apps/backend/Dockerfile
         ports:
-            - "5000:5000"
-            - "5080:5080"
+            - '5000:5000'
+            - '5080:5080'
     web:
-        image: web
         build:
             context: .
             dockerfile: apps/web/Dockerfile
         ports:
-            - "3000:3000"
+            - '3000:3000'

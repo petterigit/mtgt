@@ -41,6 +41,9 @@ export class StateGateway
 
       if (mainSocketId === client.id) {
         const newMainSocketId = room.socketIds.values().next().value;
+        if (!newMainSocketId) {
+          return;
+        }
 
         room.mainSocketId = newMainSocketId;
 
