@@ -13,6 +13,11 @@ const Web = () => {
     };
 
     const joinGame = (gameID: string) => {
+        // Only allow 4-digit numeric gameIDs to prevent injection/XSS
+        if (!/^\d{4}$/.test(gameID)) {
+            return;
+        }
+
         router.push(`/${gameID}`);
     };
 
