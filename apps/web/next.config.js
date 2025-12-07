@@ -1,11 +1,9 @@
-const isProd = process.env.NODE_ENV === 'production';
-
 module.exports = {
     reactStrictMode: true,
     transpilePackages: ['ui'],
-    output: 'export',
-
-    // In production, app is served under /mtgt path
-    basePath: isProd ? '/mtgt' : undefined,
-    assetPrefix: isProd ? '/mtgt' : undefined,
+    output: 'standalone',
+    env: {
+        NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+        NEXT_PUBLIC_WS_URL: process.env.NEXT_PUBLIC_WS_URL,
+    },
 };

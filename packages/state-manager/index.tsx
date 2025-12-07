@@ -1,3 +1,3 @@
-import { useAddPlayer, useGameState, useSetGameID } from './hooks';
+import { useAddPlayer, useGameState } from './hooks';
 
-export { useGameState, useAddPlayer, useSetGameID };
+export { useGameState, useAddPlayer };

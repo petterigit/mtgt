@@ -8,11 +8,17 @@ const Web = () => {
         const randomGameID = Math.floor(Math.random() * 10000)
             .toString()
             .padStart(4, '0');
-        router.push(`/game/${randomGameID}`);
+
+        router.push(`/${randomGameID}`);
     };
 
     const joinGame = (gameID: string) => {
-        router.push(`/game/${gameID}`);
+        // Only allow 4-digit numeric gameIDs to prevent injection/XSS
+        if (!/^\d{4}$/.test(gameID)) {
+            return;
+        }
+
+        router.push(`/${gameID}`);
     };
 
     return <LobbyContainer createGame={newGame} joinGame={value => joinGame(value)}></LobbyContainer>;
