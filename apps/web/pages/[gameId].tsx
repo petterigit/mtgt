@@ -3,17 +3,17 @@ import { useEffect, useState } from 'react';
 import { useAddPlayer, useGameState } from 'state-manager';
 import { usePlayers, useResetGameState, useSetGameState, useSetPlayerAttribute } from 'state-manager/hooks';
 import { Player as PlayerType, PlayerAttribute, GameState } from 'types';
-import { Button, GameContainer, GameMenu, GameMenuButton, Player, PlayersContainer } from 'ui';
+import { GameContainer, GameMenu, Player, PlayersContainer } from 'ui';
 import { joinGame, updateState } from '../rest-api';
 import { socket } from '../socket-api';
 
 const Game = () => {
     const router = useRouter();
     const { gameId } = router.query;
-    const [openModal, setOpenModal] = useState(false);
     const addPlayer = useAddPlayer();
     const setPlayerAttribute = useSetPlayerAttribute();
     const players = usePlayers();
+    const [openModal, setOpenModal] = useState(players.length === 0);
     const gameState = useGameState();
     const setGameState = useSetGameState();
     const resetGameState = useResetGameState();
@@ -104,10 +104,11 @@ const Game = () => {
     };
 
     return (
-        <GameContainer gameId={gameId?.toString()} backToHome={leaveGame}>
-            <div style={{ alignSelf: 'center', padding: '8em' }}>
-                <GameMenuButton onClick={() => setOpenModal(true)} />
-            </div>
+        <GameContainer
+            gameId={gameId?.toString()}
+            backToHome={leaveGame}
+            openGameMenu={() => setOpenModal(prev => !prev)}
+        >
             <PlayersContainer>
                 {players.map((player, i) => (
                     <Player

@@ -11,4 +11,5 @@
     align-items: center;
     padding: 1em;
     border-bottom: 1px solid #ccc;
+    gap: 1em;
 }
