@@ -20,17 +20,29 @@ export const LobbyContainer = (props: Props) => {
 
     return (
         <div className="lobby-container">
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="game-picker">Select room</label>
-                <input
-                    value={value}
-                    name="game-picker"
-                    id="game-picker"
-                    onChange={e => setValue(e.target.value)}
-                ></input>
-                <Button type="submit">Go</Button>
-            </form>
-            <Button onClick={createGame}>Create game</Button>
+            <Button className="lobby-start-button" size="large" onClick={createGame}>
+                Start Session
+            </Button>
+            <div>
+                <p>Or join an existing room width 4-digit game ID!</p>
+                <form className="lobby-room-form" onSubmit={handleSubmit}>
+                    <input
+                        className="lobby-room-input"
+                        value={value}
+                        onChange={e => setValue(e.target.value)}
+                        type={'number'}
+                        placeholder="XXXX"
+                        minLength={4}
+                        maxLength={4}
+                        required
+                        pattern="\d{4}"
+                        inputMode="numeric"
+                    ></input>
+                    <Button disabled={value.length !== 4} type="submit">
+                        Go
+                    </Button>
+                </form>
+            </div>
         </div>
     );
 };

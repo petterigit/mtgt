@@ -1,8 +1,30 @@
 .lobby-container {
-    border: 1px solid black;
-    width: 15em;
-    height: 10em;
+    border-radius: 16px;
+    width: 32em;
     display: flex;
     flex-direction: column;
-    gap: 2em;
+    gap: 8em;
+    padding: 4em;
+    text-align: center;
+}
+
+.lobby-start-button {
+    margin-top: 25%;
+}
+
+.lobby-room-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1em;
+    align-items: center;
+    height: 4em;
+}
+
+.lobby-room-input {
+    font-size: 1.25rem;
+    width: 6em;
+    text-align: center;
+    border-radius: 8px;
+    border: 1px solid grey;
 }
