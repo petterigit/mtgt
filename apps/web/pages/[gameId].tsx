@@ -148,7 +148,12 @@ const Game = () => {
                         key={`player-${i}`}
                         addAttribute={handleChangeAttribute}
                         removeAttribute={handleChangeAttribute}
-                        removePlayer={() => removePlayer(player.id)}
+                        removePlayer={() => {
+                            const confirmText = `Remove ${player.name}?`;
+                            if (window.confirm(confirmText)) {
+                                removePlayer(player.id);
+                            }
+                        }}
                         {...player}
                     />
                 ))}
