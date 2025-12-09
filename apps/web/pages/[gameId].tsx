@@ -18,6 +18,20 @@ const Game = () => {
     const setGameState = useSetGameState();
     const resetGameState = useResetGameState();
 
+    const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected'>('connecting');
+
+    useEffect(() => {
+        const handleConnect = () => setConnectionStatus('connected');
+        const handleDisconnect = () => setConnectionStatus('disconnected');
+        socket.on('connect', handleConnect);
+        socket.on('disconnect', handleDisconnect);
+        setConnectionStatus(socket.connected ? 'connected' : 'disconnected');
+        return () => {
+            socket.off('connect', handleConnect);
+            socket.off('disconnect', handleDisconnect);
+        };
+    }, []);
+
     useEffect(() => {
         const stateHandler = (state: GameState) => {
             if (state.version <= gameState.version) {
@@ -40,12 +54,14 @@ const Game = () => {
             socket.off('state', stateHandler);
             socket.off('force-update-state', onForceUpdate);
         };
-        // Should have more deps but doesn't work :c
-        // gameId, gameState, setGameState
     }, [gameState.version]);
 
     useEffect(() => {
-        socket.connect();
+        let tried = false;
+        if (!socket.connected && !tried) {
+            socket.connect();
+            tried = true;
+        }
         if (gameState.version !== 0) {
             resetGameState();
         }
@@ -60,9 +76,17 @@ const Game = () => {
             socket.off('connect', onConnect);
             socket.disconnect();
         };
-        // Should have more deps but doesn't work :c
-        // gameId, gameState.version, resetGameState
     }, []);
+
+    const tryConnection = () => {
+        setConnectionStatus('connecting');
+        socket.connect();
+        setTimeout(() => {
+            if (!socket.connected) {
+                setConnectionStatus('disconnected');
+            }
+        }, 1500);
+    };
 
     useEffect(() => {
         const warningText = 'The current game will be lost if you leave. Are you sure?';
@@ -105,6 +129,8 @@ const Game = () => {
 
     return (
         <GameContainer
+            connectionStatus={connectionStatus}
+            tryConnection={tryConnection}
             gameId={gameId?.toString()}
             backToHome={leaveGame}
             openGameMenu={() => setOpenModal(prev => !prev)}

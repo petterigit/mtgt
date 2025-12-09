@@ -13,3 +13,31 @@
     border-bottom: 1px solid #ccc;
     gap: 1em;
 }
+
+.connection-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-dot.connected {
+    background: #28a745;
+    box-shadow: 0 0 6px rgba(40, 167, 69, 0.45);
+}
+
+.status-dot.connecting {
+    background: #ffc107;
+    box-shadow: 0 0 6px rgba(255, 193, 7, 0.35);
+}
+
+.status-dot.disconnected {
+    background: #dc3545;
+    box-shadow: 0 0 6px rgba(220, 53, 69, 0.35);
+}

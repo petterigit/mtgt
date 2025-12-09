@@ -1,4 +1,7 @@
 import { Player as PlayerType, PlayerAttribute, NumberPlayerAttribute } from 'types';
+import { Button } from '../Button';
+
+import './player.css';
 
 interface Props extends PlayerType {
     addAttribute: <T extends PlayerAttribute>(id: string, attribute: T, newValue: PlayerType[T]) => void;
@@ -24,10 +27,10 @@ export const Player = (props: Props) => {
             </ul>
             {optionalNumberFields.map(field => (
                 <div key={`players-actions-${id}-${field.name}`}>
-                    <button onClick={() => addAttribute(id, field.name, field.value + 1)}>Add {field.name}</button>
-                    <button onClick={() => removeAttribute(id, field.name, field.value - 1)}>
+                    <Button onClick={() => addAttribute(id, field.name, field.value + 1)}>Add {field.name}</Button>
+                    <Button onClick={() => removeAttribute(id, field.name, field.value - 1)}>
                         Remove {field.name}
-                    </button>
+                    </Button>
                 </div>
             ))}
         </div>
