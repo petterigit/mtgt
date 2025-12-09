@@ -19,6 +19,11 @@ const useGameStateStore = create<GameState & GameStateActions>(set => ({
             return { version: state.version + 1, players: newPlayers };
         }),
     addPlayer: () => set(state => ({ version: state.version + 1, players: [...state.players, initialPlayer()] })),
+    removePlayer: (id: string) =>
+        set(state => {
+            const newPlayers = state.players.filter(player => player.id !== id);
+            return { version: state.version + 1, players: newPlayers };
+        }),
     reset: () =>
         set({
             ...initialState,
@@ -38,6 +43,10 @@ export const usePlayers = () => {
 
 export const useAddPlayer = () => {
     return useGameStateStore(state => state.addPlayer);
+};
+
+export const useRemovePlayer = () => {
+    return useGameStateStore(state => state.removePlayer);
 };
 
 export const useSetPlayerAttribute = () => {

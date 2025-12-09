@@ -6,6 +6,7 @@
     cursor: pointer;
     display: inline-block;
     line-height: 1;
+    text-wrap: nowrap;
 }
 .button--primary {
     color: white;

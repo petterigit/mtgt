@@ -1,7 +1,13 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useAddPlayer, useGameState } from 'state-manager';
-import { usePlayers, useResetGameState, useSetGameState, useSetPlayerAttribute } from 'state-manager/hooks';
+import {
+    usePlayers,
+    useRemovePlayer,
+    useResetGameState,
+    useSetGameState,
+    useSetPlayerAttribute,
+} from 'state-manager/hooks';
 import { Player as PlayerType, PlayerAttribute, GameState } from 'types';
 import { GameContainer, GameMenu, Player, PlayersContainer } from 'ui';
 import { joinGame, updateState } from '../rest-api';
@@ -11,6 +17,7 @@ const Game = () => {
     const router = useRouter();
     const { gameId } = router.query;
     const addPlayer = useAddPlayer();
+    const removePlayer = useRemovePlayer();
     const setPlayerAttribute = useSetPlayerAttribute();
     const players = usePlayers();
     const [openModal, setOpenModal] = useState(players.length === 0);
@@ -85,7 +92,7 @@ const Game = () => {
             if (!socket.connected) {
                 setConnectionStatus('disconnected');
             }
-        }, 1500);
+        }, 5000);
     };
 
     useEffect(() => {
@@ -141,6 +148,7 @@ const Game = () => {
                         key={`player-${i}`}
                         addAttribute={handleChangeAttribute}
                         removeAttribute={handleChangeAttribute}
+                        removePlayer={() => removePlayer(player.id)}
                         {...player}
                     />
                 ))}

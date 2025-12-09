@@ -7,11 +7,17 @@
 
 .game-container-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     padding: 1em;
     border-bottom: 1px solid #ccc;
     gap: 1em;
+}
+
+.game-container-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .connection-status {

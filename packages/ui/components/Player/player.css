@@ -1,0 +1,51 @@
+.player-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 1em;
+    width: 450px;
+    height: 300px;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.player-card-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.attribute-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    justify-content: center;
+}
+
+.attribute-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+}
+
+.player-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    height: 6em;
+    width: 6em;
+    padding: 0.5em;
+    border: 2px solid black;
+    border-radius: 8px;
+}
+
+.player-field-label {
+    text-align: center;
+    font-weight: bold;
+}
+
+.player-card-name {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0;
+}

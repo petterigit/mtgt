@@ -36,7 +36,7 @@ export const GameContainer = (props: GameContainerProps) => {
                     </Button>
                 )}
             </div>
-            {children}
+            <div className="game-container-content">{children}</div>
         </div>
     );
 };
