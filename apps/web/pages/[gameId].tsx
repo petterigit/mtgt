@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useAddPlayer, useGameState } from 'state-manager';
 import { usePlayers, useResetGameState, useSetGameState, useSetPlayerAttribute } from 'state-manager/hooks';
 import { Player as PlayerType, PlayerAttribute, GameState } from 'types';
-import { GameContainer, GameMenu, GameMenuButton, Player, PlayersContainer } from 'ui';
+import { Button, GameContainer, GameMenu, GameMenuButton, Player, PlayersContainer } from 'ui';
 import { joinGame, updateState } from '../rest-api';
 import { socket } from '../socket-api';
 
@@ -64,6 +64,29 @@ const Game = () => {
         // gameId, gameState.version, resetGameState
     }, []);
 
+    useEffect(() => {
+        const warningText = 'The current game will be lost if you leave. Are you sure?';
+
+        const handleWindowClose = (e: BeforeUnloadEvent) => {
+            e.preventDefault();
+            return (e.returnValue = warningText);
+        };
+
+        const handleBrowseAway = () => {
+            if (window.confirm(warningText)) return;
+            router.events.emit('routeChangeError');
+            throw 'routeChange aborted.';
+        };
+
+        window.addEventListener('beforeunload', handleWindowClose);
+        router.events.on('routeChangeStart', handleBrowseAway);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleWindowClose);
+            router.events.off('routeChangeStart', handleBrowseAway);
+        };
+    }, [router.events]);
+
     const leaveGame = () => {
         router.push('/');
     };
@@ -81,8 +104,7 @@ const Game = () => {
     };
 
     return (
-        <GameContainer>
-            <p>Room ID: {gameId}</p>
+        <GameContainer gameId={gameId?.toString()} backToHome={leaveGame}>
             <div style={{ alignSelf: 'center', padding: '8em' }}>
                 <GameMenuButton onClick={() => setOpenModal(true)} />
             </div>
